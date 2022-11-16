@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,18 +35,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Done(View view) {
-        st  = mispar.getText().toString();
-        sifra = Double.parseDouble(st);
-        st  = kofetz.getText().toString();
-        kfitza = Double.parseDouble(st);
-        Intent si = new Intent(this,MainActivity2.class);
-        si.putExtra("firstnumber", sifra);
-        si.putExtra("kofetznumber", kfitza);
-        // si.putExtra("MathOrGeo", tb.isChecked());
-        startActivity(si);
+        if(bodek() == true) {
+            st = mispar.getText().toString();
+            sifra = Double.parseDouble(st);
+            st = kofetz.getText().toString();
+            kfitza = Double.parseDouble(st);
+            Intent si = new Intent(this, MainActivity2.class);
+            si.putExtra("n", sifra);
+            si.putExtra("nn", kfitza);
+            si.putExtra("MathOrGeo", tb.isChecked());
+            startActivity(si);
+        }
+        else{
+            mispar.setText("");
+            kofetz.setText("");
+            Toast.makeText(MainActivity.this, "You must enter a number", Toast.LENGTH_SHORT).show();
+        }
     }
 
-    public void onoff(View view) {
+    public boolean bodek(){
+        st  = kofetz.getText().toString();
+        if (st.matches("-?\\d+(\\.\\d+)?")) {
+            st  = mispar.getText().toString();
+            if (st.matches("-?\\d+(\\.\\d+)?")) {
+                return true;
+            }
+        }
+        return false;
+        }
+
+    public void onoroff(View view) {
         if(tb.isChecked()){
             tb.setText("Geometrical");
         }
